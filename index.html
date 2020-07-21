@@ -230,6 +230,138 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/21/Activiti6.0%E8%8E%B7%E5%8F%96%E4%B8%8B%E4%B8%80%E8%8A%82%E7%82%B9%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="A.Dun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/beijing(8).jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="A.Dun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/21/Activiti6.0%E8%8E%B7%E5%8F%96%E4%B8%8B%E4%B8%80%E8%8A%82%E7%82%B9%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B/" itemprop="url">Activiti6.0获取下一节点任务的心路历程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-21T21:26:56+08:00">
+                2020-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在我的开发任务中，我被分配了一个像下一个节点审批人发送短信的任务，这个任务看起来非常的简单，但在开发过程中遇到了许多的坑，在这里进行记录。</p>
+<ol>
+<li>首先，就是获取下一节点的任务信息，这里说简单也简单，说难也难，初期，我查阅了大量的资料，那些资料中都是在代码层面获取下一节点任务信息，我尝试了一下，非常的复杂，后来，我仔细研究了activiti流程变化与数据库变化之间的联系，发现act_ru_task表的执行特性，它会在当前节点任务完成后自动加载下一节点任务，根据这一点，我们就能能够获取到下一节点的相关信息。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> : ADun</span></span><br><span class="line"><span class="comment">     * 获取当前节点的下一节点所有节点信息</span></span><br><span class="line"><span class="comment">     * 解释：当当前节点任务完成后，ac_ru_task表会删除当前任务保存下一待办任务，因此可以获得下一节点任务相关信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> task</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Task&gt; <span class="title">nextAllNodeTaskList</span><span class="params">(Task task)</span> </span>&#123;</span><br><span class="line">        List&lt;Task&gt; taskList = <span class="keyword">null</span>;</span><br><span class="line">        taskList = taskService.createTaskQuery().processInstanceId(task.getProcessInstanceId()).list();</span><br><span class="line">        <span class="keyword">return</span> taskList;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+<li>接着就是判断流程是怎样执行的了，何时给下一节点发信息，何时不发，在这里我由于对项目流程图不够熟悉，出现了各种的逻辑漏洞<br>（1）代码的第一个版本</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 发送待办提醒的通用入口（包含短信+邮箱提醒）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> task 当前节点的任务信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendTaskNotice</span><span class="params">(Task task)</span></span>&#123;</span><br><span class="line">        <span class="comment">//1、获取下一节点所有任务信息，实际是查询act_ru_task表中的信息</span></span><br><span class="line">        List&lt;Task&gt; nextNodeUserTask = taskQueryService.nextAllNodeTaskList(task);</span><br><span class="line">        <span class="keyword">if</span>(nextNodeUserTask == <span class="keyword">null</span> || nextNodeUserTask.size() &lt;= <span class="number">0</span>)&#123;<span class="comment">//下一节点任务为空，即当前节点为最后一个节点</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span> (Task nextNodeTask : nextNodeUserTask) &#123;</span><br><span class="line">            List&lt;Execution&gt; executionList = runtimeService.createExecutionQuery().processInstanceId(nextNodeTask.getProcessInstanceId()).list();<span class="comment">//查询出所有的执行实例</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; executionList.size(); i++) &#123;</span><br><span class="line">                <span class="comment">//如果当前任务的执行实例id是下一节点任务执行实例的父id，则进行下一步</span></span><br><span class="line">                <span class="keyword">if</span>(task.getExecutionId() == executionList.get(i).getParentId())&#123;</span><br><span class="line">                    String assignee = nextNodeTask.getAssignee();<span class="comment">//下一节点任务的参与者uid</span></span><br><span class="line">                    <span class="keyword">if</span> (assignee == <span class="keyword">null</span> || <span class="string">""</span>.equals(assignee))&#123;</span><br><span class="line">                        log.error(<span class="string">"下一节点任务参与者为空"</span>);</span><br><span class="line">                        <span class="keyword">return</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    SysUser assigneeUser = sysUserService.selectUserByUserName(assignee);<span class="comment">//下一节点任务参与者用户信息</span></span><br><span class="line">                    <span class="comment">//2、获取流程实例的任务属性</span></span><br><span class="line">                    GatherTaskProperty gatherTaskProperty = gatherTaskPropertyMapper.selectGatherTaskPropertyByProcessInstanceId(task.getProcessInstanceId());</span><br><span class="line">                    SysUser initialUser = sysUserService.selectUserByUserName(gatherTaskProperty.getCreateBy());<span class="comment">//发起人用户信息</span></span><br><span class="line"></span><br><span class="line">                    <span class="comment">//3、发送邮件、短信提醒</span></span><br><span class="line">                    sendTaskSMNotice(nextNodeTask, assigneeUser, initialUser);</span><br><span class="line">                    sendTaskMailNotice(nextNodeTask, assigneeUser, initialUser);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p> 在这一个版本的代码逻辑中，我的的逻辑是这样的，这里使用到了activiti流程引擎在执行过程中的一个特性，如果流程是单线流程，那么在执行过程中只会在act_ru_exection执行实例表【这个表中会保存流程实例与执行实例，它们有细微的区别，不明白的可以去了解一下】中保存一条流程实例信息，如果是并行流程，那么在act_ru_exection表中会同时保存流程实例与执行实例，并且执行实例属于流程实例，在表中可以发现，这里包含三条信息，第一条就是流程实例的信息，下面两条是执行实例的信息<br><img src="https://img-blog.csdnimg.cn/20200715154900416.jpg#pic_center" alt="在这里插入图片描述"><br>由此我们也能够得出此时是一个下图这种类型的流程图<br><img src="https://img-blog.csdnimg.cn/20200715155804977.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>当初是这样想的，现在看起来非常的智障：：当1号节点任务完成时，act_ru_task表会自动加载2与4任务节点的信息【并行网关的特性】，此时的2与3属于一个执行实例，4与5属于一个执行实例，当任务2完成时，act_ru_task表会自动删除2号节点，加载3号任务，此时3号执行实例的parentid我认为是2号节点的执行id，但后来发现，act_ru_exection表中一直会保存三条数据，变化的只是act_id，第一版本宣布失败<br>（2）代码的第二个版本</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 发送待办提醒的通用入口（包含短信+邮箱提醒）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> task 当前节点的任务信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendTaskNotice</span><span class="params">(Task task)</span></span>&#123;</span><br><span class="line">        <span class="comment">//1、获取下一节点所有任务信息，实际是查询act_ru_task表中的信息</span></span><br><span class="line">        List&lt;Task&gt; nextNodeUserTask = taskQueryService.nextAllNodeTaskList(task);</span><br><span class="line">        <span class="keyword">if</span>(nextNodeUserTask == <span class="keyword">null</span> || nextNodeUserTask.size() &lt;= <span class="number">0</span>)&#123;<span class="comment">//下一节点任务为空，即当前节点为最后一个节点</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//2、如果下一节点只有一个任务，act_ru_task中只有一条数据</span></span><br><span class="line">        <span class="keyword">if</span> (nextNodeUserTask.size() == <span class="number">1</span>) &#123;</span><br><span class="line">            String assignee =<span class="keyword">null</span>;</span><br><span class="line">            <span class="comment">//判断是单线流程还是并行流程，根据当前任务的执行流程实例id查询act_ru_exection，只有一条数据说明是单线流程，否则时多线</span></span><br><span class="line">            List&lt;Execution&gt; executionList = runtimeService.createExecutionQuery().processInstanceId(nextNodeUserTask.get(<span class="number">0</span>).getProcessInstanceId()).list();</span><br><span class="line">            <span class="keyword">if</span>(executionList.size()==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="comment">//单线流程，直接向下一节点任务负责人发送信息</span></span><br><span class="line">                assignee = nextNodeUserTask.get(<span class="number">0</span>).getAssignee();<span class="comment">//下一节点任务的参与者uid</span></span><br><span class="line">                <span class="keyword">if</span> (assignee == <span class="keyword">null</span> || <span class="string">""</span>.equals(assignee))&#123;</span><br><span class="line">                    log.error(<span class="string">"下一节点任务参与者为空"</span>);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                SysUser assigneeUser = sysUserService.selectUserByUserName(assignee);<span class="comment">//下一节点任务参与者用户信息</span></span><br><span class="line">                <span class="comment">//2、获取流程实例的任务属性</span></span><br><span class="line">                GatherTaskProperty gatherTaskProperty = gatherTaskPropertyMapper.selectGatherTaskPropertyByProcessInstanceId(task.getProcessInstanceId());</span><br><span class="line">                SysUser initialUser = sysUserService.selectUserByUserName(gatherTaskProperty.getCreateBy());<span class="comment">//发起人用户信息</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">//3、发送邮件、短信提醒</span></span><br><span class="line">                sendTaskSMNotice(nextNodeUserTask.get(<span class="number">0</span>), assigneeUser, initialUser);</span><br><span class="line">                sendTaskMailNotice(nextNodeUserTask.get(<span class="number">0</span>), assigneeUser, initialUser);</span><br><span class="line">                sendTask(task,nextNodeUserTask.get(<span class="number">0</span>));</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//多线流程，只有一条执行实例完成时有可能出现一个任务节点，此时跳过</span></span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//3、如果下一节点任务不只一个任务，act_ru_task中有多条数据</span></span><br><span class="line">        Set&lt;Task&gt; taskArraySet = <span class="keyword">new</span> HashSet&lt;&gt;();<span class="comment">//去重</span></span><br><span class="line">        <span class="keyword">if</span> (nextNodeUserTask.size() &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nextNodeUserTask.size() - <span class="number">1</span>; i++) &#123;</span><br><span class="line">                Date timeOne = nextNodeUserTask.get(i).getCreateTime();</span><br><span class="line">                Date timeTwo = nextNodeUserTask.get(i + <span class="number">1</span>).getCreateTime();</span><br><span class="line">                <span class="keyword">if</span> (timeOne.compareTo(timeTwo) == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="comment">//如果当前任务的创建时间相同，都发送</span></span><br><span class="line">                    taskArraySet.add(nextNodeUserTask.get(i));</span><br><span class="line">                    taskArraySet.add(nextNodeUserTask.get(i + <span class="number">1</span>));</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (timeOne.compareTo(timeTwo) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="comment">//如果当前任务的创建时间不同，timeOne在timeTwo时间之后</span></span><br><span class="line">                    taskArraySet.add(nextNodeUserTask.get(i));<span class="comment">//只发送最近时间创建的任务</span></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">//如果当前任务的创建时间不同，timeOne在timeTwo时间之前</span></span><br><span class="line">                    taskArraySet.add(nextNodeUserTask.get(i + <span class="number">1</span>));<span class="comment">//只发送最近时间创建的任务</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (Task nextNodeTask : taskArraySet) &#123;</span><br><span class="line">            sendTask(task, nextNodeTask) ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在这一个版本的代码，我加入了大量的判断，在后期发现这里的逻辑只能适用于两条并行的流程，三条并行会有重复发送的情况，而且在单线流程与并行流程的判断处有逻辑错误，不适合下图流程<br><img src="https://img-blog.csdnimg.cn/20200715162124328.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>在2、3、4任务完成后不会向5发送信息，这是严重的逻辑性错误</p>
+<p>（3）代码的最终版本</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> task 当前节点的任务信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> : ADun</span></span><br><span class="line"><span class="comment">     * 发送待办提醒的通用入口（包含短信+邮箱提醒）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendTaskNotice</span><span class="params">(Task task)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1、获取下一节点所有任务信息，实际是查询act_ru_task表中的信息</span></span><br><span class="line">        List&lt;Task&gt; nextNodeUserTask = taskQueryService.nextAllNodeTaskList(task);</span><br><span class="line">        <span class="comment">//下一节点任务为空，即当前节点为最后一个节点</span></span><br><span class="line">        <span class="keyword">if</span> (nextNodeUserTask == <span class="keyword">null</span> || nextNodeUserTask.size() &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Task nextNodeTask : nextNodeUserTask) &#123;</span><br><span class="line">            String assignee = nextNodeTask.getAssignee();</span><br><span class="line">            <span class="keyword">if</span>(assignee == <span class="keyword">null</span> || <span class="string">""</span>.equals(assignee))&#123;</span><br><span class="line">                log.error(<span class="string">"taskId为"</span> + nextNodeTask.getId() + <span class="string">"的任务参与者不存在！"</span>);</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//获取当前任务的结束时间</span></span><br><span class="line">            HistoricTaskInstance hisTask = historyService.createHistoricTaskInstanceQuery().taskId(task.getId()).singleResult();</span><br><span class="line">            Date hisTaskEndTime = hisTask.getEndTime();</span><br><span class="line">            <span class="comment">//获取下一任务开始时间</span></span><br><span class="line">            Date nextNodeTaskCreateTime = nextNodeTask.getCreateTime();</span><br><span class="line">            <span class="comment">//只有下一任务节点创建时间与当前任务完成时间相等时，向下一节点发送信息</span></span><br><span class="line">            <span class="keyword">if</span> (nextNodeTaskCreateTime.compareTo(hisTaskEndTime) == <span class="number">0</span>) &#123;</span><br><span class="line">                sendTask(task, nextNodeTask);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在这一版本中我还是沿用上一版本代码的思想，在时间中做文章，因为这是一个公司内部的OA系统，网络延时非常小，几乎不计，最后我是通过判断当前任务的完成时间是否下一任务的开始时间相同，相同就向下一任务审批人发送信息，我认为这里还是存在漏洞，可能时间会存在秒级的不准确，大家有什么好的想法可以在评论区留言。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/21/My/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -769,7 +901,7 @@
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
