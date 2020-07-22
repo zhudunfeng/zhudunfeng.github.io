@@ -83,17 +83,17 @@
 
 
 
-<meta name="description" content="np在我的开发任务中，我被分配了一个像下一个节点审批人发送短信的任务，这个任务看起来非常的简单，但在开发过程中遇到了许多的坑，在这里进行记录。  首先，就是获取下一节点的任务信息，这里说简单也简单，说难也难，初期，我查阅了大量的资料，那些资料中都是在代码层面获取下一节点任务信息，我尝试了一下，非常的复杂，后来，我仔细研究了activiti流程变化与数据库变化之间的联系，发现act_ru_task表">
+<meta name="description" content="在我的开发任务中，我被分配了一个像下一个节点审批人发送短信的任务，这个任务看起来非常的简单，但在开发过程中遇到了许多的坑，在这里进行记录。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Activiti6.0获取下一节点任务的心路历程">
 <meta property="og:url" content="http://zhudunfeng.github.io/2020/07/21/Activiti6.0%E8%8E%B7%E5%8F%96%E4%B8%8B%E4%B8%80%E8%8A%82%E7%82%B9%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B/index.html">
 <meta property="og:site_name" content="A.Dun">
-<meta property="og:description" content="np在我的开发任务中，我被分配了一个像下一个节点审批人发送短信的任务，这个任务看起来非常的简单，但在开发过程中遇到了许多的坑，在这里进行记录。  首先，就是获取下一节点的任务信息，这里说简单也简单，说难也难，初期，我查阅了大量的资料，那些资料中都是在代码层面获取下一节点任务信息，我尝试了一下，非常的复杂，后来，我仔细研究了activiti流程变化与数据库变化之间的联系，发现act_ru_task表">
+<meta property="og:description" content="在我的开发任务中，我被分配了一个像下一个节点审批人发送短信的任务，这个任务看起来非常的简单，但在开发过程中遇到了许多的坑，在这里进行记录。">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200715154900416.jpg#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200715155804977.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200715162124328.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="article:published_time" content="2020-07-21T13:26:56.848Z">
-<meta property="article:modified_time" content="2020-07-22T04:20:07.992Z">
+<meta property="article:modified_time" content="2020-07-22T14:00:22.475Z">
 <meta property="article:author" content="A.Dun">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Activiti">
@@ -390,7 +390,8 @@
       
 
       
-        <p>np在我的开发任务中，我被分配了一个像下一个节点审批人发送短信的任务，这个任务看起来非常的简单，但在开发过程中遇到了许多的坑，在这里进行记录。</p>
+        <p>在我的开发任务中，我被分配了一个像下一个节点审批人发送短信的任务，这个任务看起来非常的简单，但在开发过程中遇到了许多的坑，在这里进行记录。</p>
+<a id="more"></a>
 <ol>
 <li>首先，就是获取下一节点的任务信息，这里说简单也简单，说难也难，初期，我查阅了大量的资料，那些资料中都是在代码层面获取下一节点任务信息，我尝试了一下，非常的复杂，后来，我仔细研究了activiti流程变化与数据库变化之间的联系，发现act_ru_task表的执行特性，它会在当前节点任务完成后自动加载下一节点任务，根据这一点，我们就能能够获取到下一节点的相关信息。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> : ADun</span></span><br><span class="line"><span class="comment">     * 获取当前节点的下一节点所有节点信息</span></span><br><span class="line"><span class="comment">     * 解释：当当前节点任务完成后，ac_ru_task表会删除当前任务保存下一待办任务，因此可以获得下一节点任务相关信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> task</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Task&gt; <span class="title">nextAllNodeTaskList</span><span class="params">(Task task)</span> </span>&#123;</span><br><span class="line">        List&lt;Task&gt; taskList = <span class="keyword">null</span>;</span><br><span class="line">        taskList = taskService.createTaskQuery().processInstanceId(task.getProcessInstanceId()).list();</span><br><span class="line">        <span class="keyword">return</span> taskList;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
 <li>接着就是判断流程是怎样执行的了，何时给下一节点发信息，何时不发，在这里我由于对项目流程图不够熟悉，出现了各种的逻辑漏洞<br>（1）代码的第一个版本</li>
