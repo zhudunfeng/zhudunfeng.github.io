@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java,SpringBoot," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="A.Dun" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="@TOC 原始方式pro.load()与 pro.getProperty(）配合的方式123456789101112131415构造器 	Properties pro&#x3D;new Properties();读取配置文件的步骤  ★	a. pro加载配置文件		pro.load(InputStream in);		pro.load(Reader in);	b. 根据key值取value值		p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在SpringBoot项目中引入.yml文件中的设置">
+<meta property="og:url" content="http://zhudunfeng.github.io/2020/07/23/%E5%9C%A8SpringBoot%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%80%8E%E6%A0%B7%E5%BC%95%E5%85%A5.yml%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%AE%BE%E7%BD%AE/index.html">
+<meta property="og:site_name" content="A.Dun">
+<meta property="og:description" content="@TOC 原始方式pro.load()与 pro.getProperty(）配合的方式123456789101112131415构造器 	Properties pro&#x3D;new Properties();读取配置文件的步骤  ★	a. pro加载配置文件		pro.load(InputStream in);		pro.load(Reader in);	b. 根据key值取value值		p">
+<meta property="article:published_time" content="2020-07-23T12:47:52.534Z">
+<meta property="article:modified_time" content="2020-07-23T12:52:09.979Z">
+<meta property="article:author" content="A.Dun">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhudunfeng.github.io/2020/07/23/在SpringBoot项目中怎样引入.yml文件中的设置/"/>
+
+
+
+
+
+  <title>在SpringBoot项目中引入.yml文件中的设置 | A.Dun</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">A.Dun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">java日记</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tag"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhudunfeng.github.io/2020/07/23/%E5%9C%A8SpringBoot%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%80%8E%E6%A0%B7%E5%BC%95%E5%85%A5.yml%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%AE%BE%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="A.Dun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/beijing(8).jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="A.Dun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">在SpringBoot项目中引入.yml文件中的设置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-23T20:47:52+08:00">
+                2020-07-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SpringBoot/" itemprop="url" rel="index">
+                    <span itemprop="name">SpringBoot</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>@<a href="SpringBoot中获取application.yml文件内容">TOC</a></p>
+<h1 id="原始方式pro-load-与-pro-getProperty-）配合的方式"><a href="#原始方式pro-load-与-pro-getProperty-）配合的方式" class="headerlink" title="原始方式pro.load()与 pro.getProperty(）配合的方式"></a>原始方式pro.load()与 pro.getProperty(）配合的方式</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">构造器 </span><br><span class="line">	Properties pro&#x3D;new Properties();</span><br><span class="line">读取配置文件的步骤  ★</span><br><span class="line">	a. pro加载配置文件</span><br><span class="line">		pro.load(InputStream in);</span><br><span class="line">		pro.load(Reader in);</span><br><span class="line">	b. 根据key值取value值</span><br><span class="line">		pro.getProperty(String key);根据key值取value值  如果没有key值返回null</span><br><span class="line">		pro.getProperty(String key,String defaultvalue);根据key值取value值  如果没有key值返回defaultvalue</span><br><span class="line">设置键值对信息到配置文件</span><br><span class="line">	a. 设置键值对信息</span><br><span class="line">		pro.setProperty(String key, String value);</span><br><span class="line">	b. 应用到配置文件上</span><br><span class="line">		pro.store(OutputStream out, String commons);&#x2F;&#x2F;comment是注释的意思</span><br><span class="line">		pro.store(Writer out, String commons);</span><br></pre></td></tr></table></figure>
+  <a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo5</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//通过java代码拿到配置文件中的信息</span></span><br><span class="line">		Properties pro=<span class="keyword">new</span> Properties();</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">//1. pro加载配置文件</span></span><br><span class="line">			pro.load(<span class="keyword">new</span> FileInputStream(<span class="string">"src\\db.properties"</span>));</span><br><span class="line">			<span class="comment">//2. 取值    根据key值取value值</span></span><br><span class="line">			String username = pro.getProperty(<span class="string">"url1"</span>,<span class="string">"123"</span>);</span><br><span class="line">			System.out.println(username);</span><br><span class="line">			</span><br><span class="line">		&#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">/*Properties pro=new Properties();</span></span><br><span class="line"><span class="comment">		//1. 设置键值对数据</span></span><br><span class="line"><span class="comment">		pro.setProperty("name", "john");</span></span><br><span class="line"><span class="comment">		pro.setProperty("age", "18");</span></span><br><span class="line"><span class="comment">		//2. 应用到配置文件上</span></span><br><span class="line"><span class="comment">		try &#123;</span></span><br><span class="line"><span class="comment">			pro.store(new FileOutputStream("src\\person.properties"), "person");</span></span><br><span class="line"><span class="comment">			</span></span><br><span class="line"><span class="comment">			</span></span><br><span class="line"><span class="comment">			</span></span><br><span class="line"><span class="comment">		&#125; catch (FileNotFoundException e) &#123;</span></span><br><span class="line"><span class="comment">			// TODO Auto-generated catch block</span></span><br><span class="line"><span class="comment">			e.printStackTrace();</span></span><br><span class="line"><span class="comment">		&#125; catch (IOException e) &#123;</span></span><br><span class="line"><span class="comment">			// TODO Auto-generated catch block</span></span><br><span class="line"><span class="comment">			e.printStackTrace();</span></span><br><span class="line"><span class="comment">		&#125;*/</span></span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Value注解方式"><a href="#Value注解方式" class="headerlink" title="@Value注解方式"></a>@Value注解方式</h1><p>@Value使用必须在使用的类必须能够扫描到</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 模板编号（N） */</span></span><br><span class="line">   <span class="meta">@Value</span>(<span class="string">"$&#123;unifiedability.mail.templateNum&#125;"</span>)</span><br><span class="line">   <span class="keyword">private</span> String templateNum;</span><br></pre></td></tr></table></figure>
+<p>application.yml</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mail:</span><br><span class="line">    templateNum: 11111111111111111111#一串数字</span><br></pre></td></tr></table></figure>
+<h1 id="ConfigurationProperties-prefix-“前缀内容”-与-EnableConfigurationProperties-映射类-class-配合的方式"><a href="#ConfigurationProperties-prefix-“前缀内容”-与-EnableConfigurationProperties-映射类-class-配合的方式" class="headerlink" title="@ConfigurationProperties(prefix = “前缀内容”)与@EnableConfigurationProperties({映射类.class})配合的方式"></a>@ConfigurationProperties(prefix = “前缀内容”)与@EnableConfigurationProperties({映射类.class})配合的方式</h1><p>application.yml</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">baidu:</span><br><span class="line">  token:</span><br><span class="line">    APP_ID: <span class="string">""</span></span><br><span class="line">    API_KEY: <span class="string">""</span></span><br><span class="line">    SECRET_KEY: <span class="string">""</span></span><br></pre></td></tr></table></figure>
+<p>映射实体类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.atguigu.demo.properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Repository;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"baidu.token"</span>)</span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaiduProperties</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String APP_ID;</span><br><span class="line">    <span class="keyword">private</span> String API_KEY;</span><br><span class="line">    <span class="keyword">private</span> String SECRET_KEY;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.atguigu.demo.service.impl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.atguigu.demo.properties.BaiduProperties;</span><br><span class="line"><span class="keyword">import</span> com.atguigu.demo.service.BaiduSpeakService;</span><br><span class="line"><span class="keyword">import</span> com.atguigu.demo.vo.TextVo;</span><br><span class="line"><span class="keyword">import</span> com.baidu.aip.speech.AipSpeech;</span><br><span class="line"><span class="keyword">import</span> com.baidu.aip.speech.TtsResponse;</span><br><span class="line"><span class="keyword">import</span> com.baidu.aip.util.Util;</span><br><span class="line"><span class="keyword">import</span> org.json.JSONObject;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.EnableConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(&#123;BaiduProperties<span class="class">.<span class="keyword">class</span>&#125;)</span></span><br><span class="line"><span class="class">@<span class="title">Service</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">BaiduSpeakServiceImpl</span> <span class="keyword">implements</span> <span class="title">BaiduSpeakService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> BaiduProperties baiduProperties;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveAudio</span><span class="params">(TextVo textVo)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 初始化一个AipSpeech</span></span><br><span class="line">        AipSpeech client = <span class="keyword">new</span> AipSpeech(baiduProperties.getAPP_ID(), baiduProperties.getAPI_KEY(), baiduProperties.getSECRET_KEY());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 可选：设置网络连接参数</span></span><br><span class="line">        client.setConnectionTimeoutInMillis(<span class="number">2000</span>);</span><br><span class="line">        client.setSocketTimeoutInMillis(<span class="number">60000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//可选配置语速</span></span><br><span class="line">        HashMap&lt;String, Object&gt; options = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">        <span class="keyword">if</span>(textVo.getSpd()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            options.put(<span class="string">"spd"</span>, textVo.getSpd());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(textVo.getPit()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            options.put(<span class="string">"pit"</span>, textVo.getPit());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(textVo.getPer()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            options.put(<span class="string">"per"</span>, textVo.getPer());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 可选：设置代理服务器地址, http和socket二选一，或者均不设置</span></span><br><span class="line">        <span class="comment">//client.setHttpProxy("proxy_host", proxy_port);  // 设置http代理</span></span><br><span class="line">        <span class="comment">//client.setSocketProxy("proxy_host", proxy_port);  // 设置socket代理</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 可选：设置log4j日志输出格式，若不设置，则使用默认配置</span></span><br><span class="line">        <span class="comment">// 也可以直接通过jvm启动参数设置此环境变量</span></span><br><span class="line">        <span class="comment">//System.setProperty("aip.log4j.conf", "log4j.properties");</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用接口</span></span><br><span class="line">        TtsResponse res = client.synthesis(textVo.getText(), <span class="string">"zh"</span>, <span class="number">1</span>, options);</span><br><span class="line">        <span class="keyword">byte</span>[] data = res.getData();</span><br><span class="line">        JSONObject res1 = res.getResult();</span><br><span class="line">        <span class="keyword">if</span> (data != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Util.writeBytesToFileSystem(data, <span class="string">"D:/"</span>+textVo.getName());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (res1 != <span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(res1.toString(<span class="number">2</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/21/Activiti6.0%E8%8E%B7%E5%8F%96%E4%B8%8B%E4%B8%80%E8%8A%82%E7%82%B9%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B/" rel="next" title="Activiti6.0获取下一节点任务的心路历程">
+                <i class="fa fa-chevron-left"></i> Activiti6.0获取下一节点任务的心路历程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/beijing(8).jpg"
+                alt="A.Dun" />
+            
+              <p class="site-author-name" itemprop="name">A.Dun</p>
+              <p class="site-description motion-element" itemprop="description">阿敦成长日记</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhudunfeng" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:18865386773@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com//users/12556823/zhudunfeng" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原始方式pro-load-与-pro-getProperty-）配合的方式"><span class="nav-number">1.</span> <span class="nav-text">原始方式pro.load()与 pro.getProperty(）配合的方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Value注解方式"><span class="nav-number">2.</span> <span class="nav-text">@Value注解方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ConfigurationProperties-prefix-“前缀内容”-与-EnableConfigurationProperties-映射类-class-配合的方式"><span class="nav-number">3.</span> <span class="nav-text">@ConfigurationProperties(prefix &#x3D; “前缀内容”)与@EnableConfigurationProperties({映射类.class})配合的方式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">A.Dun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
