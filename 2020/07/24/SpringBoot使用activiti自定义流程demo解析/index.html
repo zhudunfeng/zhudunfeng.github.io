@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Java,Springboot,activiti6.0,自定义流程," />
 
 
 
@@ -83,20 +83,24 @@
 
 
 
-<meta name="description" content="环境搭建【这里直接讲解自定义流程】集成 Activiti Modeler下载源码我这里选用的是 Activiti 5.23.0 版本的页面，下载 zip，解压Activiti 5.23.0 源码 pom依赖1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253">
+<meta name="description" content="环境搭建【这里直接讲解自定义流程】集成 Activiti Modeler下载源码我这里选用的是 Activiti 5.23.0 版本的页面，下载 zip，解压Activiti 5.23.0 源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot使用activiti自定义流程demo解析">
 <meta property="og:url" content="http://zhudunfeng.github.io/2020/07/24/SpringBoot%E4%BD%BF%E7%94%A8activiti%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8Bdemo%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="A.Dun">
-<meta property="og:description" content="环境搭建【这里直接讲解自定义流程】集成 Activiti Modeler下载源码我这里选用的是 Activiti 5.23.0 版本的页面，下载 zip，解压Activiti 5.23.0 源码 pom依赖1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253">
+<meta property="og:description" content="环境搭建【这里直接讲解自定义流程】集成 Activiti Modeler下载源码我这里选用的是 Activiti 5.23.0 版本的页面，下载 zip，解压Activiti 5.23.0 源码">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200724203813752.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2020072420414395.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200724204841439.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2020072420485470.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2020072420510679.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70">
 <meta property="article:published_time" content="2020-07-24T13:02:41.758Z">
-<meta property="article:modified_time" content="2020-07-24T13:02:50.569Z">
+<meta property="article:modified_time" content="2020-07-24T13:34:56.939Z">
 <meta property="article:author" content="A.Dun">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Springboot">
+<meta property="article:tag" content="activiti6.0">
+<meta property="article:tag" content="自定义流程">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200724203813752.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center">
 
@@ -341,6 +345,61 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SpringBoot/" itemprop="url" rel="index">
+                    <span itemprop="name">SpringBoot</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SpringBoot/activiti6-0/" itemprop="url" rel="index">
+                    <span itemprop="name">activiti6.0</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SpringBoot/activiti6-0/%E6%B5%81%E7%A8%8B%E5%BC%95%E6%93%8E/" itemprop="url" rel="index">
+                    <span itemprop="name">流程引擎</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SpringBoot/activiti6-0/%E6%B5%81%E7%A8%8B%E5%BC%95%E6%93%8E/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">自定义流程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -369,6 +428,7 @@
 
       
         <h1 id="环境搭建【这里直接讲解自定义流程】"><a href="#环境搭建【这里直接讲解自定义流程】" class="headerlink" title="环境搭建【这里直接讲解自定义流程】"></a>环境搭建【这里直接讲解自定义流程】</h1><h2 id="集成-Activiti-Modeler"><a href="#集成-Activiti-Modeler" class="headerlink" title="集成 Activiti Modeler"></a>集成 Activiti Modeler</h2><h3 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h3><p>我这里选用的是 Activiti 5.23.0 版本的页面，下载 zip，解压<br><a href="https://github.com/Activiti/Activiti/releases/tag/5.23.0/" target="_blank" rel="noopener">Activiti 5.23.0 源码</a></p>
+<a id="more"></a>
 <h3 id="pom依赖"><a href="#pom依赖" class="headerlink" title="pom依赖"></a>pom依赖</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;project xmlns=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">	xsi:schemaLocation=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span><br><span class="line">	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">	&lt;groupId&gt;com.activiti6&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;activiti6-demo&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.0.0&lt;/version&gt;</span><br><span class="line">	&lt;packaging&gt;jar&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">	&lt;parent&gt;</span><br><span class="line">		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">		&lt;version&gt;1.5.8.RELEASE&lt;/version&gt;</span><br><span class="line">		&lt;relativePath/&gt;</span><br><span class="line">	&lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">	&lt;properties&gt;</span><br><span class="line">		&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">		&lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;</span><br><span class="line">		&lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">		&lt;druid.version&gt;1.1.6&lt;/druid.version&gt;</span><br><span class="line">        &lt;activiti.version&gt;6.0.0&lt;/activiti.version&gt;</span><br><span class="line">        &lt;apache.xmlgraphics.version&gt;1.7&lt;/apache.xmlgraphics.version&gt;</span><br><span class="line">	&lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">	&lt;dependencies&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-freemarker&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">		&lt;!-- mysql 驱动依赖--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">		&lt;!-- Druid DataSource --&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;$&#123;druid.version&#125;&lt;/version&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- activiti --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.activiti&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;activiti-spring-boot-starter-basic&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;activiti.version&#125;&lt;/version&gt; </span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        </span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">		     &lt;groupId&gt;org.activiti&lt;/groupId&gt;</span><br><span class="line">		     &lt;artifactId&gt;activiti-json-converter&lt;/artifactId&gt;</span><br><span class="line">		     &lt;version&gt;$&#123;activiti.version&#125;&lt;/version&gt;</span><br><span class="line">		     &lt;exclusions&gt;</span><br><span class="line">				&lt;exclusion&gt;</span><br><span class="line">					&lt;groupId&gt;org.activiti&lt;/groupId&gt;</span><br><span class="line">      				&lt;artifactId&gt;activiti-bpmn-model&lt;/artifactId&gt;</span><br><span class="line">				&lt;/exclusion&gt;</span><br><span class="line">		     &lt;/exclusions&gt;</span><br><span class="line">    	&lt;/dependency&gt;</span><br><span class="line">    	</span><br><span class="line">	    &lt;dependency&gt; </span><br><span class="line">		    &lt;groupId&gt;org.apache.xmlgraphics&lt;/groupId&gt; </span><br><span class="line">		    &lt;artifactId&gt;batik-codec&lt;/artifactId&gt; </span><br><span class="line">		    &lt;version&gt;$&#123;apache.xmlgraphics.version&#125;&lt;/version&gt; </span><br><span class="line">	    &lt;/dependency&gt; </span><br><span class="line">	    &lt;dependency&gt; </span><br><span class="line">		    &lt;groupId&gt;org.apache.xmlgraphics&lt;/groupId&gt; </span><br><span class="line">		    &lt;artifactId&gt;batik-css&lt;/artifactId&gt; </span><br><span class="line">		    &lt;version&gt;$&#123;apache.xmlgraphics.version&#125;&lt;/version&gt; </span><br><span class="line">	    &lt;/dependency&gt; </span><br><span class="line">	    &lt;dependency&gt; </span><br><span class="line">		    &lt;groupId&gt;org.apache.xmlgraphics&lt;/groupId&gt; </span><br><span class="line">		    &lt;artifactId&gt;batik-svg-dom&lt;/artifactId&gt; </span><br><span class="line">		    &lt;version&gt;$&#123;apache.xmlgraphics.version&#125;&lt;/version&gt; </span><br><span class="line">	    &lt;/dependency&gt; </span><br><span class="line">	    &lt;dependency&gt; </span><br><span class="line">		    &lt;groupId&gt;org.apache.xmlgraphics&lt;/groupId&gt; </span><br><span class="line">		    &lt;artifactId&gt;batik-svggen&lt;/artifactId&gt; </span><br><span class="line">		    &lt;version&gt;$&#123;apache.xmlgraphics.version&#125;&lt;/version&gt; </span><br><span class="line">	    &lt;/dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;lombok&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.junit.jupiter&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;junit-jupiter-api&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;RELEASE&lt;/version&gt;</span><br><span class="line">			&lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;fastjson&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;1.2.70&lt;/version&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line">	&lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">	&lt;build&gt;</span><br><span class="line">		&lt;plugins&gt;</span><br><span class="line">			&lt;plugin&gt;</span><br><span class="line">				&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">				&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">			&lt;/plugin&gt;</span><br><span class="line">		&lt;/plugins&gt;</span><br><span class="line">	&lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
 <h3 id="代码集成"><a href="#代码集成" class="headerlink" title="代码集成"></a>代码集成</h3><h5 id="前端代码集成"><a href="#前端代码集成" class="headerlink" title="前端代码集成"></a>前端代码集成</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">在项目中的 resource 文件夹下新建一个 static 文件夹</span><br><span class="line"></span><br><span class="line">SpringBoot 能自动读取 static 目录下的静态文件，因此文件夹名称不可随意更改</span><br><span class="line"></span><br><span class="line">找到 activiti-webapp-explorer2 包</span><br><span class="line"></span><br><span class="line">将 webapp 下的 diagram-viewer 文件夹，editor-app 文件夹，modeler.html 文件复制到 static 下</span><br><span class="line"></span><br><span class="line">diagram-viewer：流程图跟踪组件</span><br><span class="line">editor-app：目录中包含设计器里面所有的资源：angular.js、oryx.js以及配套的插件及css</span><br><span class="line">modeler.html：流程设计器的主页面，用来引入各种web资源</span><br><span class="line">路径：Activiti-5.23.0\modules\activiti-webapp-explorer2\src\main\webapp</span><br></pre></td></tr></table></figure>
 <p><img src="https://img-blog.csdnimg.cn/20200724203813752.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
@@ -394,6 +454,18 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Springboot/" rel="tag"># Springboot</a>
+          
+            <a href="/tags/activiti6-0/" rel="tag"># activiti6.0</a>
+          
+            <a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B/" rel="tag"># 自定义流程</a>
+          
+        </div>
       
 
       
@@ -504,7 +576,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -515,7 +587,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
