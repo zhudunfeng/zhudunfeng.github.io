@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhudunfeng.github.io/"/>
-  <updated>2020-07-24T13:56:06.983Z</updated>
+  <updated>2020-08-20T11:45:26.869Z</updated>
   <id>http://zhudunfeng.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Acticiti流程引擎在已知当前流程定义id的情况下获取当前流程的所有信息（包括：节点和连线）</title>
+    <link href="http://zhudunfeng.github.io/2020/08/20/Acticiti%E6%B5%81%E7%A8%8B%E5%BC%95%E6%93%8E%E5%9C%A8%E5%B7%B2%E7%9F%A5%E5%BD%93%E5%89%8D%E6%B5%81%E7%A8%8B%E5%AE%9A%E4%B9%89id%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%B5%81%E7%A8%8B%E7%9A%84%E6%89%80%E6%9C%89%E4%BF%A1%E6%81%AF%EF%BC%88%E5%8C%85%E6%8B%AC%EF%BC%9A%E8%8A%82%E7%82%B9%E5%92%8C%E8%BF%9E%E7%BA%BF%EF%BC%89/"/>
+    <id>http://zhudunfeng.github.io/2020/08/20/Acticiti%E6%B5%81%E7%A8%8B%E5%BC%95%E6%93%8E%E5%9C%A8%E5%B7%B2%E7%9F%A5%E5%BD%93%E5%89%8D%E6%B5%81%E7%A8%8B%E5%AE%9A%E4%B9%89id%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%B5%81%E7%A8%8B%E7%9A%84%E6%89%80%E6%9C%89%E4%BF%A1%E6%81%AF%EF%BC%88%E5%8C%85%E6%8B%AC%EF%BC%9A%E8%8A%82%E7%82%B9%E5%92%8C%E8%BF%9E%E7%BA%BF%EF%BC%89/</id>
+    <published>2020-08-20T11:42:16.111Z</published>
+    <updated>2020-08-20T11:45:26.869Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Acticiti流程引擎在已知当前流程定义id的情况下获取当前流程的所有信息（包括：节点和连线）"><a href="#Acticiti流程引擎在已知当前流程定义id的情况下获取当前流程的所有信息（包括：节点和连线）" class="headerlink" title="Acticiti流程引擎在已知当前流程定义id的情况下获取当前流程的所有信息（包括：节点和连线）"></a>Acticiti流程引擎在已知当前流程定义id的情况下获取当前流程的所有信息（包括：节点和连线）</h1><p>这里我们已知流程已经部署，我的需求是获取当前流程的所有任务节点，我使用instanceof关键字来进行匹配</p><a id="more"></a><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> List&lt;UserTask&gt; <span class="title">getProcessUserTasks</span><span class="params">(String processInstanceId)</span> </span>&#123;</span><br><span class="line">        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();</span><br><span class="line">        BpmnModel bpmnModel = repositoryService.getBpmnModel( processInstance.getProcessDefinitionId());</span><br><span class="line">        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(processInstance.getProcessDefinitionId()).singleResult();</span><br><span class="line">        <span class="comment">//process中包含所有的节点信息,包括流程线</span></span><br><span class="line">        Process process = bpmnModel.getProcessById(processDefinition.getKey());</span><br><span class="line">        <span class="comment">//获取流程所有节点信息</span></span><br><span class="line">        Collection&lt;FlowElement&gt; flowElements = process.getFlowElements();</span><br><span class="line">        List&lt;UserTask&gt; userTaskList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">//筛选流程中所有的UserTask任务节点</span></span><br><span class="line">        <span class="keyword">for</span> (FlowElement flowElement : flowElements) &#123;</span><br><span class="line">            <span class="keyword">if</span> (flowElement <span class="keyword">instanceof</span> UserTask) &#123;</span><br><span class="line">                UserTask userTask = ((UserTask) flowElement);</span><br><span class="line">                userTaskList.add(userTask);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> userTaskList;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Acticiti流程引擎在已知当前流程定义id的情况下获取当前流程的所有信息（包括：节点和连线）&quot;&gt;&lt;a href=&quot;#Acticiti流程引擎在已知当前流程定义id的情况下获取当前流程的所有信息（包括：节点和连线）&quot; class=&quot;headerlink&quot; title=&quot;Acticiti流程引擎在已知当前流程定义id的情况下获取当前流程的所有信息（包括：节点和连线）&quot;&gt;&lt;/a&gt;Acticiti流程引擎在已知当前流程定义id的情况下获取当前流程的所有信息（包括：节点和连线）&lt;/h1&gt;&lt;p&gt;这里我们已知流程已经部署，我的需求是获取当前流程的所有任务节点，我使用instanceof关键字来进行匹配&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="流程引擎框架" scheme="http://zhudunfeng.github.io/categories/%E6%B5%81%E7%A8%8B%E5%BC%95%E6%93%8E%E6%A1%86%E6%9E%B6/"/>
+    
+    
+      <category term="Java" scheme="http://zhudunfeng.github.io/tags/Java/"/>
+    
+      <category term="Activiti" scheme="http://zhudunfeng.github.io/tags/Activiti/"/>
+    
+      <category term="流程节点" scheme="http://zhudunfeng.github.io/tags/%E6%B5%81%E7%A8%8B%E8%8A%82%E7%82%B9/"/>
+    
+  </entry>
   
   <entry>
     <title>SpringBoot使用activiti自定义流程demo解析</title>
