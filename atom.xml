@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhudunfeng.github.io/"/>
-  <updated>2020-08-22T09:28:44.723Z</updated>
+  <updated>2020-09-01T14:42:05.674Z</updated>
   <id>http://zhudunfeng.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GC调优-XX:PrintGCDetails深度解析</title>
+    <link href="http://zhudunfeng.github.io/2020/09/01/GC%E8%B0%83%E4%BC%98-XX_PrintGCDetails%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/"/>
+    <id>http://zhudunfeng.github.io/2020/09/01/GC%E8%B0%83%E4%BC%98-XX_PrintGCDetails%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/</id>
+    <published>2020-09-01T14:40:04.874Z</published>
+    <updated>2020-09-01T14:42:05.674Z</updated>
+    
+    <content type="html"><![CDATA[<p>查看程序运行GC的运行情况<br><img src="https://img-blog.csdnimg.cn/20200901223339831.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><a id="more"></a><p>资源充足的GC情况<br><img src="https://img-blog.csdnimg.cn/20200901223413330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p>新生代<br>老年代<br>元空间<br>因为现在资源充足没有发生GC</p><p>*<em>案例</em>：<code>将JVM初始化内存与最大内存（防止内存抖动，反复GC）调至10m，new一个50m的数组对象，发生OOM</code><br><img src="https://img-blog.csdnimg.cn/20200901223639594.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p>JVM参数配置<br><img src="https://img-blog.csdnimg.cn/20200901223651222.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p>查看GC情况<br><img src="https://img-blog.csdnimg.cn/20200901223702653.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p><code>GC参数解读</code><br><img src="https://img-blog.csdnimg.cn/20200901223741945.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p><code>FullGC参数解读</code><br><img src="https://img-blog.csdnimg.cn/20200901223749674.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p><p><code>规律</code>：<br>【名称】【GC前内存占用】（-&gt;）【GC后内存占用】（该区内存总大小）</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;查看程序运行GC的运行情况&lt;br&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/20200901223339831.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxODE2NzAy,size_16,color_FFFFFF,t_70#pic_center&quot; alt=&quot;在这里插入图片描述&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="JVM" scheme="http://zhudunfeng.github.io/categories/JVM/"/>
+    
+    
+      <category term="Java" scheme="http://zhudunfeng.github.io/tags/Java/"/>
+    
+      <category term="JVM" scheme="http://zhudunfeng.github.io/tags/JVM/"/>
+    
+      <category term="GC" scheme="http://zhudunfeng.github.io/tags/GC/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker学习：（一）初识Docker</title>
