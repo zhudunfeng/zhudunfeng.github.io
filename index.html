@@ -272,6 +272,160 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhudunfeng.github.io/2020/10/13/JavaSE%208%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%AE%9D%E5%85%B8%E3%80%90%E4%B8%BB%E8%A6%81%E4%BB%A5%E9%97%AE%E9%A2%98%E7%9A%84%E5%BD%A2%E5%BC%8F%E8%AE%B0%E5%BD%95%E3%80%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="A.Dun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/beijing(8).jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="A.Dun">
+    </span>
+    
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/10/13/JavaSE%208%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%AE%9D%E5%85%B8%E3%80%90%E4%B8%BB%E8%A6%81%E4%BB%A5%E9%97%AE%E9%A2%98%E7%9A%84%E5%BD%A2%E5%BC%8F%E8%AE%B0%E5%BD%95%E3%80%91/" itemprop="url">JavaSE 8面试基础知识宝典【主要以问题的形式记录】</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-13T23:03:01+08:00">
+                2020-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index">
+                    <span itemprop="name">面试题</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>@<a href="目录">TOC</a></p>
+<h1 id="JavaSE-8"><a href="#JavaSE-8" class="headerlink" title="JavaSE 8"></a>JavaSE 8</h1><h2 id="基础语法-9"><a href="#基础语法-9" class="headerlink" title="基础语法 9"></a>基础语法 9</h2><h3 id="Q1：简单说说Java有哪些数据类型"><a href="#Q1：简单说说Java有哪些数据类型" class="headerlink" title="Q1：简单说说Java有哪些数据类型"></a>Q1：简单说说Java有哪些数据类型</h3><p>答：①分为基本数据类型和引用数据类型。②基本数据类型包括：数值型（byte、short、int、long、float、double），字符型（char）以及布尔型（boolean）。除了基本类型外，其他数据类型都属于引用类型，包括类、接口、数组等。</p>
+<h3 id="Q2：float-number-3-4-有没有问题？为什么？默认类型【int、double】"><a href="#Q2：float-number-3-4-有没有问题？为什么？默认类型【int、double】" class="headerlink" title="Q2：float number=3.4;有没有问题？为什么？默认类型【int、double】"></a>Q2：float number=3.4;有没有问题？为什么？默认类型【int、double】</h3><p>答：有问题，因为3.4 是双精度数，将双精度型（double）赋值给浮点型（float）属于向下转型，可能会造成精度损失，所以必须进行强制类型转换，正确的写法是float number =(float)3.4;/ float number =3.4F;。</p>
+<h3 id="Q3：字符串拼接的方式以及效率？"><a href="#Q3：字符串拼接的方式以及效率？" class="headerlink" title="Q3：字符串拼接的方式以及效率？"></a>Q3：字符串拼接的方式以及效率？</h3><p>答：①使用+直接拼接，String 是final对象，不会被修改，每次使用 +进行拼接都会创建新的对象，而不是改变原来的对象，效率低，是线程安全的。②使用StringBuffer可变字符串，效率较高，是线程安全的（StringBuffer的方法使用了synchronized关键字进行修饰）。③使用StringBuilder可变字符串，效率最高，但是线程不安全。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/10/13/JavaSE%208%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%AE%9D%E5%85%B8%E3%80%90%E4%B8%BB%E8%A6%81%E4%BB%A5%E9%97%AE%E9%A2%98%E7%9A%84%E5%BD%A2%E5%BC%8F%E8%AE%B0%E5%BD%95%E3%80%91/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+   
+    
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://zhudunfeng.github.io/2020/09/30/%E8%A7%A3%E6%9E%90Json%EF%BC%8C%E5%B0%81%E8%A3%85JavaBean%E5%AF%B9%E8%B1%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1594,130 +1748,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zhudunfeng.github.io/2020/07/21/My-Text/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="A.Dun">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/beijing(8).jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="A.Dun">
-    </span>
-    
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/07/21/My-Text/" itemprop="url">Activiti6.0</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-21T18:22:25+08:00">
-                2020-07-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-   
-    
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1772,7 +1802,7 @@
               
                 <a href="/archives/%7C%7Carchive">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1783,7 +1813,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1794,7 +1824,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1908,7 +1938,7 @@
     
 	<span title="Site words total count">
      字 </span>
-    <!--<span title="symbols_count_time.count_total">49k</span>-->
+    <!--<span title="symbols_count_time.count_total">116k</span>-->
   
 
         
